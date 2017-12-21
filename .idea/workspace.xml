@@ -2,8 +2,42 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="757695a6-32e1-49dd-bf4e-a6d3ec00de41" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/protected/libs/imagecache/php-image-cache/18e3af47b74127eb56de83345552aa7e.gif" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/protected/libs/imagecache/php-image-cache/18e3af47b74127eb56de83345552aa7e.gif.gz" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/images/films/10_cloverfield_lane.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/28_days_later-469569758-large.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/MV5BMTQwMDY0MTA4MF5BMl5BanBnXkFtZTcwNzI3MDgxOQ@@._V1_SY1000_CR0,0,631,1000_AL_.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/MV5BMTYzMjM5Nzc0NV5BMl5BanBnXkFtZTcwMjY0Mjc4Nw@@._V1_SY1000_SX675_AL_.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/MV5BMjIyNTQ5NjQ1OV5BMl5BanBnXkFtZTcwODg1MDU4OA@@._V1_SY1000_CR0,0,674,1000_AL_.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/MV5BMjIzNjEyMzcwOF5BMl5BanBnXkFtZTcwMTkyMjE0NQ@@._V1_SY1000_CR0,0,674,1000_AL_.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/MV5BNGJmMjRhZmQtY2Y3Ny00ZDExLThlZTAtMjFlMjYzYTU3NGY5XkEyXkFqcGdeQXVyMTA0MjU0Ng@@._V1_SX709_CR0,0,709,999_AL_.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/MV5BNzA1MTk1MzY0OV5BMl5BanBnXkFtZTgwNjkzNTUwMDE@._V1_SY1000_CR0,0,674,1000_AL_.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/MV5BNzNiYzhkZjMtN2E1MS00ZTlkLWI0NzUtMDkwYjJhZjYxODdkXkEyXkFqcGdeQXVyNDYwMjI1MzI@._V1_SY1000_CR0,0,707,1000_AL_.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/MV5BOGY3ZjJmYTYtN2NjMS00NGFhLWI5MTQtNThlMGI4MmFhN2QyXkEyXkFqcGdeQXVyNjQyMjcwNDM@._V1_SY1000_CR0,0,675,1000_AL_.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/MV5BOTNjMmUyOTQtMzEyOC00M2ZmLWFjYjMtNGQ5NmZlZmYxNTFlXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_SY1000_CR0,0,674,1000_AL_.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/MV5BYTU3ZDViNmMtYWI2My00NjMzLTkyOWItN2RlYmFkYmVkNGZkXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_SY1000_CR0,0,675,1000_AL_.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/MV5BYjNjMWNhZjctYmQzYS00M2ZmLWEzZTktZTJjZDI0NmM0MmMzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/MV5BZTJmNTZlZWUtZTQ2Yi00YTFjLWFiNzctYzFlNmZmZGMzYTlmXkEyXkFqcGdeQXVyMjQ2MTk1OTE@._V1_.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/busanhaeng-597351184-large.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/dawn_of_the_dead-903534365-large.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/devil.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/gravity-595126003-large.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/insidious.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/interstellar.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/it.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/man_from_earth.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/moon.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/the_conjuring_the_warren_files-153245956-large.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/the_martian.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/weeks_later-892655817-large.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/world_war_z-150505659-large.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/images/films/wrecked.jpg" afterPath="" />
     </list>
+    <ignored path=".idea/vcs.xml" />
+    <ignored path="protected/libs/imagecache/php-image-cache/18e3af47b74127eb56de83345552aa7e.gif" />
+    <ignored path="protected/libs/imagecache/php-image-cache/18e3af47b74127eb56de83345552aa7e.gif.gz" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,7 +62,7 @@
       <file leaf-file-name="FilmsController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/protected/controllers/FilmsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
+            <state relative-caret-position="-17">
               <caret line="2" column="14" lean-forward="false" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
               <folding />
             </state>
@@ -97,6 +131,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="PUSH_TAGS">
+      <GitPushTagMode />
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -148,50 +185,6 @@
               <item name="filmoteca" type="b2602c69:ProjectViewProjectNode" />
               <item name="filmoteca" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
-            <path>
-              <item name="filmoteca" type="b2602c69:ProjectViewProjectNode" />
-              <item name="filmoteca" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="protected" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="filmoteca" type="b2602c69:ProjectViewProjectNode" />
-              <item name="filmoteca" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="protected" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="config" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="filmoteca" type="b2602c69:ProjectViewProjectNode" />
-              <item name="filmoteca" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="protected" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="libs" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="filmoteca" type="b2602c69:ProjectViewProjectNode" />
-              <item name="filmoteca" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="protected" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="libs" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="cloudinary" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="filmoteca" type="b2602c69:ProjectViewProjectNode" />
-              <item name="filmoteca" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="protected" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="libs" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="imagecache" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="filmoteca" type="b2602c69:ProjectViewProjectNode" />
-              <item name="filmoteca" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="protected" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="filmoteca" type="b2602c69:ProjectViewProjectNode" />
-              <item name="filmoteca" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="protected" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="layouts" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -228,7 +221,7 @@
       <option name="presentableId" value="Default" />
       <updated>1513785685386</updated>
       <workItem from="1513785687637" duration="1994000" />
-      <workItem from="1513809873601" duration="7294000" />
+      <workItem from="1513809873601" duration="8882000" />
     </task>
     <task id="LOCAL-00001" summary="Cache Test">
       <created>1513817086879</created>
@@ -237,11 +230,25 @@
       <option name="project" value="LOCAL" />
       <updated>1513817086879</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Cache Test">
+      <created>1513817515022</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1513817515022</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Cache Test">
+      <created>1513817886100</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1513817886100</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9288000" />
+    <option name="totallyTimeSpent" value="10876000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
@@ -250,9 +257,9 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34567901" sideWeight="0.49755502" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31986532" sideWeight="0.50488997" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31986532" sideWeight="0.50733495" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294621" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31986532" sideWeight="0.49511003" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31986532" sideWeight="0.49266502" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.49761903" order="7" side_tool="false" content_ui="tabs" />
@@ -269,6 +276,32 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -374,7 +407,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/FilmsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
+        <state relative-caret-position="-17">
           <caret line="2" column="14" lean-forward="false" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
           <folding />
         </state>
