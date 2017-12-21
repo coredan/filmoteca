@@ -40,6 +40,25 @@ legend {
   margin-bottom: 10px;
 }
 
+.pagination-place {
+    width: 100%;
+    border-top: 1px solid #eee;
+    padding: 0;
+}
+
+.pagination {
+    float: right;
+    margin: 4px;
+}
+
+.pagination li>a {
+    height: 30px;
+}
+
+.pagination li>a i {
+    font-size: 16px;
+}
+
 /* Header */
 
 header {
@@ -53,13 +72,14 @@ header {
   text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
 }
 
-.header {  
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
-  background: rgba(0, 0, 0, 0.7) url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAYAAACddGYaAAAAD0lEQVQIW2NkQABjRmQOAAM+AGkQsDBSAAAAAElFTkSuQmCC) repeat;
-  -webkit-box-shadow: inset 0 0 100px rgba(0, 0, 0, .5);
-  box-shadow: inset 0 0 100px rgba(0, 0, 0, .5);
+.header {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    background: rgba(0, 0, 0, 0.5) url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAYAAACddGYaAAAAD0lEQVQIW2NkQABjRmQOAAM+AGkQsDBSAAAAAElFTkSuQmCC) repeat;
+    -webkit-box-shadow: inset 0 0 100px rgba(0, 0, 0, .5);
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, .5);
+    opacity: .3;
 }
 
 .navbar-inverse {
@@ -67,6 +87,10 @@ header {
     border-top: 1px solid #cbe6e5;        
     background: url('../images/navbar_bg.jpg') center center; 
     margin-bottom: 10px;     
+}
+
+.navbar-fixed-top {
+    position: sticky !important;
 }
 
 .navbar-inverse .navbar-brand {
@@ -129,7 +153,15 @@ header {
   border-bottom-color: #fff;
 }
 
+@media (min-width: 640px) and (orientation:landscape) {
+
+        .col-xs-4 {
+            width: 16.66666667%;
+        }
+}
+
 @media (min-width: 400px) {
+
   .navbar-brand {
     float: left;
   }
@@ -255,11 +287,37 @@ header {
 }
 
 .colpanel6x6 {
-  background-color: #FFF;  
-  background: url('../images/navbar_bg.jpg') center center; 
-  border: 1px solid #cbe6e5;
-  padding: 10px 0;
+    position: relative;
+    background-color: #FFF;
+    background: url('../images/navbar_bg.jpg') center center;
+    border: 1px solid #cbe6e5;
+    padding: 0;
+    margin-bottom: 10px;
 }
+
+.overlay {
+    height: 100%;
+    width: 100%;
+    display: none;
+    /*position: fixed;*/
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
+}
+
+.overlay-content {
+    position: relative;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 50px;
+}
+
+
 
 span.bubble {
     background-color: #396a71;
@@ -292,8 +350,13 @@ span.bubble {
 }
 
 .panel-cell {
-  margin: 2px 2px;
-  width: 98px;
+    padding: 2px;
+    margin: 0;
+}
+
+.panel-cell>a img {
+    width: 100%;
+    max-width: 98px;
 }
 
 .slick-slide {

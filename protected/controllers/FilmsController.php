@@ -36,12 +36,20 @@ class FilmsController extends Controller
 	}
 
 	public function actionIndex()
-	{	
-	    $filmMods = Films::Model()->findAll();
+	{
+        $this->layout = "column3";
+        $criteria = new CDbCriteria();
+        $criteria->order = 'year DESC';
+        $pages = new CPagination(Films::Model()->count('id'));
+        $pages->pageSize = SiteGlobals::MAX_FILMS_PER_PAGE;
+	    if(isset($_GET["page"])) {
+	        $page = $_GET["page"];
+	        $pages->currentPage = $page-1;
+        }
+        $pages->applyLimit($criteria);
+        $filmMods = Films::Model()->findAll($criteria);
 
-	    //$filmMods = array();
-		$this->layout = "column3";
-		$this->render('index', array("filmMods"=>$filmMods));
+        $this->render('index', array("filmMods" => $filmMods, "pages"=>$pages));
 	}
 
 	public function actionAdd()
