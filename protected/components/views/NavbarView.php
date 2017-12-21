@@ -1,5 +1,6 @@
 <header>
-      
+      <div class="container header inner"> 
+  </div>
 </header>
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">

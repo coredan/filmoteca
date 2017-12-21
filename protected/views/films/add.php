@@ -48,7 +48,7 @@
 			</div>
 			<div class="col-md-6">
 				<?php echo $form->labelEx($model,'country'); ?>
-				<select name="Film[country]" class="form-control">
+				<select name="Films[country_id]" class="form-control">
 					<option value="">Seleccione un país</option>
 				<?php foreach ($countriesMod as $countryMod) { ?>
 					<option value="<?php echo $countryMod->id; ?>"><?php echo $countryMod->country_name_es; ?></option>

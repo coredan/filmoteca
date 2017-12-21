@@ -1,5 +1,4 @@
 <?php
-
 require_once 'cloudinary/Cloudinary.php';
 require_once 'cloudinary/Uploader.php';
 require_once 'cloudinary/Api.php';
@@ -11,6 +10,7 @@ require_once 'filmaffinity/api.php';
   "api_key" => "897546987296749", 
   "api_secret" => "jo6gl1WXyNfFV3E3xyODtd8d9r8" 
 ));
+
 
 class FilmsController extends Controller
 {
@@ -37,7 +37,9 @@ class FilmsController extends Controller
 
 	public function actionIndex()
 	{	
-		$filmMods = Films::Model()->findAll();
+	    $filmMods = Films::Model()->findAll();
+
+	    //$filmMods = array();
 		$this->layout = "column3";
 		$this->render('index', array("filmMods"=>$filmMods));
 	}
@@ -105,9 +107,9 @@ class FilmsController extends Controller
 				 			$filmMod->title = $filmAffinityInfo->title;
 				 			$detail["filling_title"] =  $filmMod->attributes[$attr];
 				 		} elseif(strcmp($attr, "casting") == 0) {
-                            $filmMod->casting = $filmAffinityInfo->cast;
-                            $detail["filling_title"] = $filmMod->attributes[$attr];
-                        }
+				 			$filmMod->casting = $filmAffinityInfo->cast;
+				 			$detail["filling_title"] =  $filmMod->attributes[$attr];
+				 		}
 			 		}			 		
 			 	}
 			}

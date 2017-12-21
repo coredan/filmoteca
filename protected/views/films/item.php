@@ -101,15 +101,36 @@
     <div clas="row">
       <div class="col-md-12">
         <?php 
-        $url = $filmMod->trailer;
-        parse_str( parse_url( $url, PHP_URL_QUERY ), $my_array_of_vars );
-        $id = $my_array_of_vars['v'];  
+        if(isset($filmMod->trailer) && !empty($filmMod->trailer)) {
+            $url = $filmMod->trailer;
+            parse_str( parse_url( $url, PHP_URL_QUERY ), $my_array_of_vars );
+            $id = $my_array_of_vars['v'];  
          
-        $width = '100%';
-        $height = '400px';
-        echo '<object width="' . $width . '" height="' . $height . '"><param name="movie" value="http://www.youtube.com/v/' . $id . '&amp;hl=en_US&amp;fs=1?rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/' . $id . '&amp;hl=en_US&amp;fs=1?rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="' . $width . '" height="' . $height . '"></embed></object>';
+            $width = '100%';
+            $height = '400px';
+            echo '<object width="' . $width . '" height="' . $height . '"><param name="movie" value="http://www.youtube.com/v/' . $id . '&amp;hl=en_US&amp;fs=1?rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/' . $id . '&amp;hl=en_US&amp;fs=1?rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="' . $width . '" height="' . $height . '"></embed></object>';
+        }
         ?>
       </div>
+    </div>
+    <?php } ?>
+    <?php if (isset($filmMod->links)) { ?>
+    <div clas="row">
+        <div class="show-links col-md-12">
+            <h3> Ver online</h3>
+            <ul class="nav nav-pills">
+                <?php $counter = 0; 
+                    foreach ($filmMod->links as $link) { ?>
+                    <li class="active"><a data-toggle="pill" href="#Opción<?php echo $counter; ?>">Opción<?php echo $counter; ?></a></li>
+                    <div class="tab-content">
+                        <div id="Opción<?php echo $counter++; ?>" class="tab-pane fade in active">
+                            <iframe src="https://openload.co/embed/5KAf7Tj6EcU/" scrolling="no" frameborder="0" width="700" height="430" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+                        </div>
+                    </div>
+                <?php } ?>
+            </ul>
+            
+        </div>
     </div>
     <?php } ?>
   </div>

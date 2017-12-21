@@ -5,17 +5,18 @@
 	$this->breadcrumbs=array(
 		'Películas',
 	);
+    $cloudinaryBaseUrl = "https://res.cloudinary.com/filmoteca/image/upload/c_fill,h_140,q_auto,w_98/v1/";
 ?>
 <div class="colpanel-title">
 		Listado de películas
 	</div>
 <div class="colpanel6x6 col-md-12 col-sm-12 col-xs-12">
-	<?php foreach ($filmMods as $filmMod) { 
+	<?php foreach ($filmMods as $filmMod) {
 		//list($folder, $fileNm) = explode(":", $filmMod->image, 2);
 	?>
 		<div class="panel-cell col-lg-2 col-md-3 col-sm-3 col-xs-4">			
 			<a href="/films/item/<?php echo $filmMod->id; ?>">
-				<?php echo cl_image_tag($filmMod->image, array(
+				<?php  echo cl_image_tag( $filmMod->image, array(
 					"width" => 98, 
 					"height" => 140, 
 					"crop" => "fill", 					
