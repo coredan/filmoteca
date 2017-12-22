@@ -1,5 +1,6 @@
 @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,500,700,700i,900');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
 
 body, html {
     /*height: 100%;*/
@@ -30,9 +31,26 @@ body, html {
     background-size: cover;
 }
 
-h3 {
-  margin: 0 0 10px;
-  border-bottom: 1px solid #eee;
+.tab-title {
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+    width: 200px;
+    padding: 6px 10px 3px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 20px;
+    border-top: 1px solid #eee;
+    background: url(../images/navbar_bg.jpg) center center;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.tab-title i {
+    color: #a8e0e6;
 }
 
 legend {
@@ -85,8 +103,12 @@ header {
 .navbar-inverse {
     border-bottom: 1px solid #cbe6e5;
     border-top: 1px solid #cbe6e5;        
-    background: url('../images/navbar_bg.jpg') center center; 
-    margin-bottom: 10px;     
+    background: url('../images/navbar_bg2.jpg') center center;
+    margin-bottom: 10px;
+}
+.navbar-inverse, .navbar-nav>li, .panel-title {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
 }
 
 .navbar-fixed-top {
@@ -97,15 +119,42 @@ header {
     color: #5fc5b8;
 }
 
+.navbar-inverse li {
+    min-width: 100px;
+}
+
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
-  color: #fff;
-  background-color: #22656d;
+    position: relative;
+    text-align: center;
+  color: #eee;
+  background: none;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#92efe4+0,ffffff+69&0.42+0,0+51 */
   /*background: -moz-radial-gradient(center, ellipse cover, rgba(146,239,228,0.42) 0%, rgba(227,251,248,0) 51%, rgba(255,255,255,0) 69%); /* FF3.6-15 */
   /*background: -webkit-radial-gradient(center, ellipse cover, rgba(146,239,228,0.42) 0%,rgba(227,251,248,0) 51%,rgba(255,255,255,0) 69%); /* Chrome10-25,Safari5.1-6 */
   /*background: radial-gradient(ellipse at center, rgba(146,239,228,0.42) 0%,rgba(227,251,248,0) 51%,rgba(255,255,255,0) 69%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6b92efe4', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
+}
+
+.claqueta {
+    background: url("../images/claqueta_close.png") center;
+    position: absolute;
+    width: 94px;
+    min-height: 50px;
+    bottom: 9px;
+    left: 3px;
+    z-index: -1;
+}
+
+
+.claqueta-text {
+    text-align: center;
+    z-index: 999;
+}
+
+.navbar-inverse .navbar-nav>.active .claqueta{
+    background: url("../images/claqueta_open.png") center;
+    min-height: 76px;
 }
 
 .navbar-brand {
@@ -254,18 +303,19 @@ header {
 }
 
 .breadcrumbs {
-  background-color: #7f999c;
-  color: #fff;
-  font-weight: bold;
-  padding-left: 6px;
-  margin-top: -10px;
-  margin-bottom: 10px;
-  -webkit-border-bottom-right-radius: 4px;
-  -webkit-border-bottom-left-radius: 4px;
-  -moz-border-radius-bottomright: 4px;
-  -moz-border-radius-bottomleft: 4px;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
+    border-bottom: 1px solid #000;
+    background-color: #6e847f;
+    color: #fff;
+    font-weight: bold;
+    padding-left: 6px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    -webkit-border-bottom-right-radius: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 
 /* SLICK */
@@ -372,8 +422,11 @@ span.checked {
 }
 
 .sidebar {
-  margin-top: 20px; 
   color: #333;  
+}
+
+.films-content {
+    margin-top: 10px;
 }
 
 .sidebar ul {
@@ -435,6 +488,7 @@ label.yearRange {
 }
 
 .plegable{
+    font-size: 12px;
    max-height:0;
    overflow:hidden;
    -webkit-transition: max-height 500ms ease-out;
