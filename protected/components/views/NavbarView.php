@@ -15,12 +15,11 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/films">Películas</a></li>
-        <li><a href="/site/page?view=about">Series</a></li>
-        <li><a href="#">Programas</a></li>        
+          <li class="<?= $this->filmsActive; ?>"><a href="/films"><div class="claqueta"></div><div class="claqueta-text">PELÍCULAS</div></a></li>
+          <li class="<?= $this->serieActive; ?>"><a href="/site/page?view=about"><div class="claqueta"></div><div class="claqueta-text">SERIES</div></a></li>
+          <li class="<?= $this->appsActive; ?>"><a href="#">PROGRAMAS</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="#">Default <span class="sr-only">(current)</span></a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin. Options <span class="caret"></span></a>
           <ul class="dropdown-menu">
