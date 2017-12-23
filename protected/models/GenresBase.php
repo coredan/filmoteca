@@ -55,6 +55,11 @@ class GenresBase extends CActiveRecord
 		);
 	}
 
+    public function getCheckBoxId()
+    {
+        return "gen_".$this->id;
+    }
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
