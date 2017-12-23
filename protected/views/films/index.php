@@ -7,7 +7,7 @@
 	);
     $cloudinaryBaseUrl = "https://res.cloudinary.com/filmoteca/image/upload/c_fill,h_140,q_auto,w_98/v1/";
 ?>
-<div class="tab-title"><i class="fa fa-video-camera" aria-hidden="true"></i> LISTADO DE PELÍCULAS</div>
+<div class="tab-title"><i class="fa fa-video-camera" aria-hidden="true"></i> LISTADO DE PELÍCULAS (<?= count($filmMods); ?>)</div>
 <div class="colpanel6x6 col-md-12 col-sm-12 col-xs-12">
     <?php if(count($filmMods) > 0) { ?>
         <?php foreach ($filmMods as $filmMod) {
@@ -27,13 +27,20 @@
             <div id="popover_content_<?php echo $filmMod->id ?>" class="popover-place hidden">
                 <div class="arrow"></div><h3 class="popover-header"><i class="fa fa-film" aria-hidden="true"></i> <?php echo $filmMod->title." (".$filmMod->year.")"; ?></h3>
                 <div class="popover-body">
-                    <?php echo Yii::app()->CustomHelper->cutText($filmMod->synopsis, 200); ?>
+                    <div class="row text-justify">
+                        <?php echo Yii::app()->CustomHelper->cutText($filmMod->synopsis, 200); ?>
+                    </div>
                     <hr />
-                    <?php
-                    $genres = $filmMod->genres;
-                    foreach ($genres as $genre) { ?>
-                        <span class="bubble"><?= $genre->name; ?></span>
-                    <?php } ?>
+                    <div class="row">
+                        <div class="col-xs-10 text-left">
+                            <?php
+                            $genres = $filmMod->genres;
+                            foreach ($genres as $genre) { ?>
+                                <span class="bubble"><?= $genre->name; ?> 0</span>
+                            <?php } ?>
+                        </div>
+                        <div class="col-xs-2 text-right"><button class="btn btn-info btn-sm"><?= $filmMod->nota; ?></button></div>
+                    </div>
                 </div>
             </div>
         </div>
