@@ -61,6 +61,7 @@ $(document).ready(function(){
 
               swal("Film Saved!", "The film has been saved", "success");
               $("#saveFilmButton").children('i').addClass('hidden').end().children('span').text("Save");
+              showUpdateForm(false);
             } else {
               var errors = "";
               $.each(data.errors, function(index, val) {
@@ -81,6 +82,32 @@ $(document).ready(function(){
   });
 
   // FILMS UPDATE FORM SUBMIT:
+  $('#editFilmButton').on('click',function(){ showUpdateForm(true); });
+  $('#cancelUpload').on('click',function(){ showUpdateForm(false); });
+
+  function showUpdateForm(show) {
+      if(show) {
+          $('.row.details').fadeOut("normal", function () {
+              $('.row.update').fadeIn("normal");
+          });
+      } else {
+          // Copy data from form to item:
+          $("span.it-title").text($('#Films_title').val());         // Title
+          $("span.it-year").text($('#Films_year').val());           // Year
+          $("span.it-country").text($('#Films_country_id option:selected').text());     // country
+          $("span.it-director").text($('#Films_director').val());   // director
+          $("span.it-casting").text($('#Films_casting').val());     // casting
+          $("p.it-synopsis").text($('#Films_synopsis').val());   // synopsis
+          $(".it-genres").empty();
+          $("#newfilmForm input:checked").each(function() {
+              $(".it-genres").append($('<span>').append($(this).parent('div').next('label').text()).addClass("bubble"));
+          });
+
+          $('.row.update').fadeOut("normal", function () {
+              $('.row.details').fadeIn("normal");
+          });
+      }
+  }
   $("form#frmUpdateFilm").submit(function(e) {    
     e.preventDefault();    
 
@@ -102,34 +129,6 @@ $(document).ready(function(){
       });     
     
   });
-
-  $('#editFilmButton').on('click',function(){
-    var $button = $(this);
-    var showForm = !$button.children('i').hasClass('fa-ban');
-    var text = $(this).text();
-    var content = "";
-    
-    // $('.row.update').toggleClass("hidden");
-    if(showForm){
-      $button.children('i').removeClass('fa-pencil-square').addClass('fa-ban');
-      $('.row.update').fadeIn("normal");
-      //console.log($button.children('i').attr('class'));      
-      //$('.row.details').removeClass("hidden");
-    } else {
-      $button.children('i').removeClass('fa-ban').addClass('fa-pencil-square');      
-      $('.row.update').fadeOut("normal");
-      //$('.row.details').addClass("hidden");
-    }      
-
-  });
-
-  function showUpdateForm(show, toHide, toShow, content) {
-    $toHide.removeClass('last').addClass('hidden');
-    $toShow.removeClass('hidden').addClass('last');
-
-    $toShow.children('input, textarea').val(content);
-  }
-  
 
   $('.newfilms_slider').slick({
     dots: false,
