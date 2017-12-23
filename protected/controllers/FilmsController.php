@@ -61,7 +61,7 @@ class FilmsController extends Controller
 		$filmMods = Films::Model()->findAll();	
 		$countries = Country::Model()->findAll(array('order'=>'country_name_es'));		
 		$this->layout = "column1";
-		$this->render('add', array("model"=>new Films, "torrentsMod"=>new Torrents, "filmMods"=>$filmMods, "gBaseMods"=>$this->gBaseMods, "countriesMod" => $countries));
+		$this->render('add', array("model"=>new Films, "torrentsMod"=>new Torrents, "gBaseMods"=>$this->gBaseMods, "countriesMod" => $countries));
 	}
 
 	public function actionItem() {
@@ -72,135 +72,140 @@ class FilmsController extends Controller
 	}
 
 	public function actionSave(){
-		// $f = new Films;
-		// $f->attributes["nota"] = floatval($filmAffinityInfo->average);
-		   // $filmAffinityInfo = getFilmInfo("846099", false);
-		   // var_dump($filmAffinityInfo); exit();
 
-		   //r_dump($_FILES["torrentFiles"]["name"][0]); exit(9);	
-		
 		$request = Yii::app()->request;
 		$response = array("status"=>"success");			
 		$filmPost = $request->getPost('Films');
 		$detail = array();
 
-		// borrar:
-		//$response["imageFilePath"] = "peperoni_pizza.jpg";
+		// If $filmPost is Null, returns an error:
+		if($filmPost == NULL) {
+		    $response["error"] = "Films POST data is required";
+            $response["status"] = "error";
+		    $this->renderJSON($response);
+        }
 
-		if($filmPost !== NULL) {					
-		 	$response["Post"] = $filmPost;		
-			$response["FILES"] = $_FILES;		
-			 											
-			$filmMod = new Films;
-		 	$filmMod->attributes = $filmPost;
 
-		 	// Filling with FilmAffinity data if needed.
-		 	if(!empty($filmPost["imdb_code"])) {
-				$filmAffinityInfo = getFilmInfo($filmPost["imdb_code"], false); 								
-			 	foreach ($filmMod->attributes as $attr => $val) {
-			 		if(empty($filmMod->attributes[$attr])){
-				 		if(strcmp($attr, "nota") == 0) {				 						 		
-				 			$filmMod->nota = floatval($filmAffinityInfo->average);			 			
-				 			$detail["filling_nota"] =  $filmMod->attributes[$attr];
-				 		} elseif(strcmp($attr, "synopsis") == 0) {
-				 			$filmMod->synopsis = $filmAffinityInfo->synopsis;
-				 			$detail["filling_synopsis"] =  $filmMod->attributes[$attr];
-				 		} elseif(strcmp($attr, "year") == 0) {
-				 			$filmMod->year = intval($filmAffinityInfo->year);
-				 			$detail["filling_year"] =  $filmMod->attributes[$attr];
-				 		} elseif(strcmp($attr, "director") == 0) {
-				 			$filmMod->director = $filmAffinityInfo->director;
-				 			$detail["filling_year"] =  $filmMod->attributes[$attr];
-				 		} elseif(strcmp($attr, "title") == 0) {
-				 			$filmMod->title = $filmAffinityInfo->title;
-				 			$detail["filling_title"] =  $filmMod->attributes[$attr];
-				 		} elseif(strcmp($attr, "casting") == 0) {
-				 			$filmMod->casting = $filmAffinityInfo->cast;
-				 			$detail["filling_title"] =  $filmMod->attributes[$attr];
-				 		}
-			 		}			 		
-			 	}
-			}
-			
-			// Uploading image to the cloud
-			if(isset($_FILES["image"])){				
-				if(empty($imageFilePath = $this->uploadFilesToCloud($_FILES["image"], "films_covers", $filmMod->title, array('jpeg','jpg','png')))){
-					$response["errors"] = $this->errors;
-					$response["status"] = "error";
-				} else {
-					$response["imageFilePath"] = $imageFilePath[0];
-					$detail["uploaded_image"] =  $response["imageFilePath"];
-				}
-			} else {
-				$response["errors"] = "Image is required";
-				$response["status"] = "error";
-				$this->renderJSON($response);				
-			}
+        $response["Post"] = $filmPost;
+        $response["FILES"] = $_FILES;
 
-			// Uploading torrents to the cloud
- 			if(isset($_FILES["torrentFiles"]) && $_FILES["torrentFiles"]["name"][0] !== ""){
- 				if(empty($filePaths_torrents = $this->uploadFilesToCloud($_FILES["torrentFiles"], "torrents", $filmMod->title, array('torrent')))){
-			 		$response["errors"] = $this->errors;
-			 		$response["status"] = "error";
-			 	} else {
-			 		$response["filePaths_torrents"] = $filePaths_torrents;
-			 		$detail["uploaded_torrents"] =  $response["filePaths_torrents"];
-			 	}
-			}
+//        // Uploading image to the cloud
+//        if (empty($imageFilePath = $this->uploadFilesToCloud($_FILES["image"], "films_covers", $filmMod->title, array('jpeg','jpg','png')))){
+//            $response["errors"] = $this->errors;
+//            $response["status"] = "error";
+//        } else {
+//            $response["imageFilePath"] = $imageFilePath[0];
+//            $detail["uploaded_image"] =  $response["imageFilePath"];
+//        }
+//
+        // Uploading torrents to the cloud
+        if($_FILES["torrentFiles"]["name"][0] !== ""){
+            if(empty($filePaths_torrents = $this->uploadFilesToCloud($_FILES["torrentFiles"], "torrents", $filmPost["title"], array('torrent')))){
+                $response["errors"] = $this->errors;
+                $response["status"] = "error";
+            } else {
+                $response["filePaths_torrents"] = $filePaths_torrents;
+                $detail["uploaded_torrents"] =  $response["filePaths_torrents"];
+            }
+        }
 
-		 	//Saving in Database
-		 	$filmMod->image = $response["imageFilePath"];
-		 	if($response["status"] !== "error" && $filmMod->save()){
-		 		$detail["Film Saved"] = "OK";		 		
-		 		// Saving torrents paths
-		 		if(isset($filePaths_torrents)){
-				 	foreach ($filePaths_torrents as $torrentUrl) {
-				 		$torrentMod = new Torrents;
-				 		$torrentMod->film_id = $filmMod->id;
-				 		$torrentMod->link = $torrentUrl;
-				 		if(!$torrentMod->save()) {			 						 					 		
-				 			$response["errors"] = $torrentMod->getErrors();
-				 			$response["status"] = "error";
-				 			$detail["Torrents DB ERROR"] = $torrentMod->getErrors();
-				 		}
-				 	}
-				}
+        // ¿Save or Update?
+        if (empty($filmPost["id"])) {   // is saving
 
-			 	$filmPost["genres"] = is_array($filmPost["genres"]) ? $filmPost["genres"] : array($filmPost["genres"]);
-		 		foreach ($filmPost["genres"] as $genre) {
-		 			$genresMod = new FilmsGenres;
-		 			$genresMod->film_id = $filmMod->id;
-		 			$genre = str_replace("gen_", "", $genre);
-		 			$genresMod->genre_id = $genre;
-		 			if(!$genresMod->save()) {			 						 					 		
-			 			$response["errors"] = $genresMod->getErrors();
-			 			$response["status"] = "error";
-			 			$detail["Genres DB ERROR"] = $genresMod->getErrors();
-			 		}
-		 		}
-		 		if(isset($filmPost["links"])) {
-				 	$filmPost["links"] = is_array($filmPost["links"]) ? $filmPost["links"] : array($filmPost["links"]);
-			 		foreach ($filmPost["links"] as $link) {
-			 			$linkMod = new Links;
-			 			$linkMod->film_id = $filmMod->id;
-			 			$linkMod->url = $link;		 			
-			 			if(!$linkMod->save()) {
-				 			$response["errors"] = $linkMod->getErrors();
-				 			$response["status"] = "error";
-				 			$detail["Links DB ERROR"] = $linkMod->getErrors();
-				 		}
-			 		}
-			 	}		 		
-			} else {
-		 		$response["errors"] = $filmMod->getErrors();
-		 		$response["status"] = "error";				
-		 	}
+            if (!isset($_FILES["image"])){
+                $response["errors"] = "Image is required";
+                $response["status"] = "error";
+                $this->renderJSON($response);
+            }
+            $filmMod = new Films;
+        } else {                        // is updating
+            $filmMod = Films::Model()->findByPk($filmPost["id"]);
+		}
+
+        //Saving in Database
+        if (isset($response["imageFilePath"])){
+            $filmPost["image"] = $response["imageFilePath"];
+        } else {
+            $filmPost["image"] = $filmMod->image ?: "films_cover/no_image";
+        }
+
+		// Setting attributes data:
+        $filmMod->attributes = $filmPost;
+
+        // Retrieving no filled form data from FilmAffinity:
+        // TODO HACER AQUÍ LO DE COMPROBAR SI TRAE IMAGEN O NO
+        $this->fillDataRemote($filmPost, $filmMod);
+
+        if($response["status"] !== "error" && $filmMod->save()){
+            // Saving torrents paths
+            if(isset($filePaths_torrents)){
+
+                foreach ($filePaths_torrents as $torrentUrl) {
+                    $detail["Aqui llega"] = "ENTRA";
+                    $torrentMod = new Torrents;
+                    $torrentMod->film_id = $filmMod->id;
+                    $torrentMod->link = $torrentUrl;
+                    if(!$torrentMod->save()) {
+                        $response["errors"] = $torrentMod->getErrors();
+                        $response["status"] = "error";
+                        $detail["Torrents DB ERROR"] = $torrentMod->getErrors();
+                    }
+                }
+            }
+
+            // TODO : guardar bien los géneros usando los active records y no así.
+            $filmPost["genres"] = is_array($filmPost["genres"]) ? $filmPost["genres"] : array($filmPost["genres"]);
+            $filmAddGenres = array();
+
+            // borrando en caso necesario solo al actualizar
+            if (!empty($filmPost["id"])) { // updating
+                $detail["Genre removed"] = "";
+                $savedGenres = $filmMod->filmsGenres;
+                foreach ($savedGenres as $savedGenre) {
+                    if (!in_array($savedGenre->genre_id, $filmPost["genres"])) {
+                        $savedGenre->delete();
+                        $detail["Genre removed"] =", ".$savedGenre->genre_id;
+                    }
+                }
+            }
+
+            foreach ($filmPost["genres"] as $genre) {
+                $genreId = str_replace("gen_", "", $genre);
+                if(!FilmsGenres::Model()->exists("film_id = ".$filmMod->id." AND genre_id = ".$genreId)) {
+                    $genresMod = new FilmsGenres;
+                    $genresMod->film_id = $filmMod->id;
+                    $genresMod->genre_id = $genreId;
+                    if(!$genresMod->save()) {
+                        $response["errors"] = $genresMod->getErrors();
+                        $response["status"] = "error";
+                        $detail["Genres DB ERROR"] = $genresMod->getErrors();
+                    }
+                    $detail["Genre added"] = $genresMod->genre_id;
+                }
+            }
+            $response["filmPost[genres]"] = $filmPost["genres"];
+            if(isset($filmPost["links"])) {
+                $filmPost["links"] = is_array($filmPost["links"]) ? $filmPost["links"] : array($filmPost["links"]);
+                foreach ($filmPost["links"] as $link) {
+                    $linkMod = new Links;
+                    $linkMod->film_id = $filmMod->id;
+                    $linkMod->url = $link;
+                    if(!$linkMod->save()) {
+                        $response["errors"] = $linkMod->getErrors();
+                        $response["status"] = "error";
+                        $detail["Links DB ERROR"] = $linkMod->getErrors();
+                    }
+                }
+            }
+        } else {
+            $response["errors"] = $filmMod->getErrors();
+            $response["status"] = "error";
+        }
 
 
 			//$response["test"] = $this->uploadFilesToCloud($_FILES["image"], "films_covers", $filmMod->title, array('jpeg','jpg','png'));	
 			//$response["test"] = $this->uploadFilesToCloud($_FILES["torrentFiles"], "torrents", $filmMod->title, array('torrent'));
 
-		} // end if($filmPost !== NULL)		
 		$response["detail"] = $detail;
 		$this->renderJSON($response);
 	}
@@ -248,6 +253,30 @@ class FilmsController extends Controller
 		$this->render('index', array("filmMods"=>$filmMods, "search"=>$searchData));
 	}
 
+	private function fillDataRemote($filmPost, &$filmMod){
+        // Filling with FilmAffinity data if needed:
+        if(!empty($filmPost["imdb_code"])) {
+            $filmAffinityInfo = getFilmInfo($filmPost["imdb_code"], false);
+            foreach ($filmMod->attributes as $attr => $val) {
+                if(empty($filmMod->attributes[$attr])){
+                    if(strcmp($attr, "nota") == 0) {
+                        $filmMod->nota = floatval($filmAffinityInfo->average);
+                    } elseif(strcmp($attr, "synopsis") == 0) {
+                        $filmMod->synopsis = $filmAffinityInfo->synopsis;
+                    } elseif(strcmp($attr, "year") == 0) {
+                        $filmMod->year = intval($filmAffinityInfo->year);
+                    } elseif(strcmp($attr, "director") == 0) {
+                        $filmMod->director = $filmAffinityInfo->director;
+                    } elseif(strcmp($attr, "title") == 0) {
+                        $filmMod->title = $filmAffinityInfo->title;
+                    } elseif(strcmp($attr, "casting") == 0) {
+                        $filmMod->casting = $filmAffinityInfo->cast;
+                    }
+                }
+            }
+        }
+    }
+
 	
 	private function normalizeFileNm($title, $ext=NULL) {
 		$fileName = strtolower($title);
@@ -264,46 +293,48 @@ class FilmsController extends Controller
 		}
 	}
 
-	private function uploadFilesToCloud($files, $remotePath, $title, $acceptedExtensions=NULL, $cloud=true) {	
-		$filePaths = array();
-		$fileName = "";
-		$uploadPath = "";
+	private function uploadFilesToCloud($files, $remotePath, $title, $acceptedExtensions=NULL, $cloud=true) {
+        $filePaths = array();
+	    if($files !== NULL) {
 
-		$currentDir = getcwd();
-    	$uploadDirectory = "\uploads\\";
-    	$errors = []; // Store all foreseen and unforseen errors here
-    	$fileExtensions = $acceptedExtensions; // Get all the file extensions	
-		//$a = gettype ($files);
-		// reArray files:
-		$tmp = $files;
-		//if(is_array($files)){		
-			$files = $this->reArrayFiles($files);
-		//}
-		$filesCounter = 0;
-		
+            $fileName = "";
+            $uploadPath = "";
+            $currentDir = getcwd();
+            $uploadDirectory = "\uploads\\";
 
-		foreach ($files as $f) {
-			$fileName = $f['name'];			
-			$fileTmpName  = $f['tmp_name'];	
-			$fileType = $f['type'];	
-			$exp = explode('.',$fileName);			
-			$fileExtension = strtolower(end($exp));	
-			$remFileName = $filesCounter > 0 ? $title."_".$filesCounter : $title;			
-			$remFileName = $this->normalizeFileNm($remFileName);			
-			$uploadPath = $currentDir . $uploadDirectory . basename($fileName); 
+            $fileExtensions = $acceptedExtensions ?: array(); // Get all the file extensions
 
-			if (!in_array($fileExtension,$fileExtensions)) {
-            	$this->errors[] = "This file extension is not allowed. Please upload a JPEG or PNG file";
-        	} else {        		
-        		//$didUpload = move_uploaded_file($fileTmpName, $uploadPath);
-        		if($cloud){
-        		 	\Cloudinary\Uploader::upload($fileTmpName, array("folder" => $remotePath,"public_id" => $remFileName,"resource_type" => "auto"));
-        		 	//unlink($uploadPath);
-        		 }        		         		
-        	}
-        	$filePaths[] = $remotePath.'/'.$remFileName;
-        	$filesCounter++;        	        	
-		}
+            // reArray files:
+            $tmp = $files;
+            $files = $this->reArrayFiles($files);
+            $filesCounter = 0;
+            foreach ($files as $f) {
+
+                $fileName = $f['name'];
+                $fileTmpName = $f['tmp_name'];
+                //$fileType = $f['type'];
+                $exp = explode('.', $fileName);
+                $fileExtension = strtolower(end($exp));
+                $fTemp = str_replace(".tmp","", $fileTmpName).".".$fileExtension;
+                $remFileName = $filesCounter > 0 ? $title . "_" . $filesCounter : $title;
+                $remFileName = $this->normalizeFileNm($remFileName);
+                $uploadPath = $currentDir . $uploadDirectory . basename($fileName);
+
+                if (!empty($fileExtensions) && !in_array($fileExtension, $fileExtensions)) {
+                    $this->errors[] = "This file extension is not allowed. Please upload a (".explode(",", $fileExtensions).") file";
+                } else {
+                    $didUpload = move_uploaded_file($fileTmpName, $uploadPath);
+                    if ($cloud) {
+                        \Cloudinary\Uploader::upload($uploadPath, array("folder" => $remotePath, "public_id" => $remFileName, "resource_type" => "auto"));
+                        unlink($uploadPath);
+                    }
+                }
+                $filePaths[] = $remotePath . '/' . $remFileName;
+                $filesCounter++;
+            }
+        } else {
+            $this->errors["uploadFilesToCloud()"] = "One or more files are required";
+        }
 		return $filePaths;
 	}
 
