@@ -140,7 +140,6 @@
 	}
 
 ?>
-
 <?php
 	class Film{
 	    public $poster = ""; 

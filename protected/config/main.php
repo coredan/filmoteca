@@ -1,5 +1,4 @@
-﻿<?php
-
+<?php
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
@@ -110,6 +109,7 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
+        'enableDownloads'=>TRUE,
 		'adminEmail'=>'webmaster@example.com',
 		'iSupportEmail'=>'coredan@gmail.com',
 		'dateFormat'=>'d/m/Y'
