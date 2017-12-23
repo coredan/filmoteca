@@ -6,18 +6,37 @@
   	$filmMod->title." (".$filmMod->year.")",
   );
 ?>
-<h3><?php echo "Ver ".$filmMod->title." (".$filmMod->year.")"; ?> /
-  <small style="color:#eee"><em><?php echo $filmMod->title_es; ?></em></small>
+<h3 class="title">Ver <span class="it-title-es"><?php echo $filmMod->title ?></span> (<?php echo $filmMod->year ?>) /
+    <small style="color:#eee"><em><span class="it-title-es"><?php echo $filmMod->title_es; ?></span></em></small>
+    <button type="button" id="editFilmButton" class="btn btn-info btn-sm pull-right"><i class="fa fa-pencil-square" aria-hidden="true"></i></button>
 </h3>
   <div class="row update">
       <div class="col-md-12">
-       <?php echo $this->renderPartial('add', array("model"=>new Films, "torrentsMod"=>new Torrents, "filmMods"=>$filmMod, "gBaseMods"=>$gBaseMods, "countriesMod" => $countriesMod));?>
+       <?php echo $this->renderPartial('add', array("model"=>$filmMod, "torrentsMod"=>new Torrents, "gBaseMods"=>$gBaseMods, "countriesMod" => $countriesMod));?>
       </div>
     </div>
   <div class="row details">
     <div class="film-image-place col-md-6 col-sm-7 col-xs-12">
       <p><?php echo cl_image_tag($filmMod->image, array("width" => 398, "height" => 512, "crop" => "fill", "quality"=>"auto" )); ?></p>
-      <input type="hidden" name="Film[id]" value="<?php echo $filmMod->id; ?>">
+        <?php if(!empty($filmMod->nota)) :
+            $fixedRate = ceil($filmMod->nota * 2) / 2;
+            $entireRate = floor($fixedRate);
+            $isFloat = intval($fixedRate - $entireRate) !== 0;
+            $i = 0;
+            ?>
+        <div class="floating-rate">
+            <i class="fa fa-bullhorn" aria-hidden="true"></i> <em>FilmAffinity</em> <span class="checked"><strong><?php echo $filmMod->nota; ?></strong></span> / 10 <br />
+            <?php for ($i = 0; $i < $entireRate; $i++) : ?>
+                <span class="fa fa-star checked"></span>
+            <?php endfor;
+                if ($isFloat) : ?>
+                    <span class="fa fa-star-half-o checked"></span>
+            <?php endif; ?>
+            <?php for ($i = $entireRate; $i <= 10; $i++) : ?>
+                <span class="fa fa-star"></span>
+            <?php endfor; ?>
+        </div>
+        <?php endif; //end if !empty(...) ?>
     </div>      
 
     <div class="film-details-place col-md-6 col-sm-5 col-xs-12 last">
@@ -25,7 +44,7 @@
         <div class="row">
           <div class="col-md-2">Título:</div>
           <div class="col-md-10 last">
-            <span>
+            <span class="it-title">
             <?php 
               $title = !empty($filmMod->title_es) ? $filmMod->title." / ".$filmMod->title_es : $filmMod->title;
               echo $title;
@@ -35,20 +54,20 @@
         </div>
         <div class="row">
           <div class="col-md-2">Año:</div>
-          <div class="col-md-10 last"><span><?php echo $filmMod->year; ?></span></div>          
+          <div class="col-md-10 last"><span class="it-year"><?php echo $filmMod->year; ?></span></div>
         </div>
         <?php if (isset($filmMod->country)) { ?>
           <div class="row">
             <div class="col-md-2">País:</div>
             <div class="col-md-10 last">
               <span class="flag-icon flag-icon-<?php echo strtolower($filmMod->country->country_code); ?>"></span>              
-              <span><?php echo $filmMod->country->country_name_es; ?></span>
+              <span class="it-country"><?php echo $filmMod->country->country_name_es; ?></span>
             </div>            
           </div>
         <?php } ?>
         <div class="row">
           <div class="col-md-2">Género:</div>
-          <div class="col-md-10 last">
+          <div class="col-md-10 last it-genres">
             <?php 
               $filmGenres = $filmMod->genres;          
               
@@ -63,39 +82,23 @@
         </div>
         <div class="row">
           <div class="col-md-2" style="text-align:right;">Director:</div>
-          <div class="col-md-10 last"><span><?php echo $filmMod->director; ?></span></div>
+          <div class="col-md-10 last"><span class="it-director"><?php echo $filmMod->director; ?></span></div>
           <div class="col-md-10 hidden"><input type="text" name="Film[director]" class="form-control"></div>
         </div>
+      <?php if (isset($filmMod->casting)) { ?>
+          <div class="row">
+              <div class="col-md-2">Casting:</div>
+              <div class="col-md-10 last">
+                  <span class="it-casting"><?php echo $filmMod->casting; ?></span>
+              </div>
+          </div>
+      <?php } ?>
         <div class="row">
           <div class="col-md-2" style="text-align:right;">Sinopsis:</div>
-          <div class="col-md-10 last"><span><?php echo $filmMod->synopsis; ?></span></div>
-          <div class="col-md-10 hidden"><textarea name="Film[synopsis]" class="form-control" style="height:200px;"></textarea></div>
-        </div>
-        <div class="row">
-          <div class="col-md-2" style="text-align:right;">Nota:</div>
-          <div class="col-md-10 pull-right last">
-            <div class="clear text-right"><em>FilmAffinity</em> <i class="fa fa-thermometer-half" aria-hidden="true"></i> <span class="checked"><strong><?php echo $filmMod->nota; ?></strong></span> / 10</div>
-            <span class="fa fa-star checked pull-right"></span>            
-            <span class="fa fa-star checked pull-right"></span>
-            <span class="fa fa-star checked pull-right"></span>
-            <span class="fa fa-star checked pull-right"></span>
-            <span class="fa fa-star checked pull-right"></span>
-            <span class="fa fa-star pull-right"></span>
-            <span class="fa fa-star pull-right"></span>
-            <span class="fa fa-star pull-right"></span>     
-            <span class="fa fa-star pull-right"></span>
-            <span class="fa fa-star pull-right"></span>     
-          </div>
+          <div class="col-md-10 last"><p class="it-synopsis"><?php echo $filmMod->synopsis; ?></p></div>
         </div>
       </div> <!-- end of div "detail" -->      
-      <div class="row">
-        <div class="col-md-6">
-          <button type="button" id="editFilmButton" class="btn btn-info btn-sm pull-left Edit"><i class="fa fa-pencil-square" aria-hidden="true"></i></button>
-        </div>
-        <div class="col-md-6">
-          <button type="submit" id="updateFilmButton" class="btn btn-success btn-sm pull-right hidden"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
-        </div>
-      </div>
+
     </div>
     <?php if (isset($filmMod->trailer)) { ?>
     <div clas="row">
@@ -114,13 +117,34 @@
       </div>
     </div>
     <?php } ?>
-    <?php if (isset($filmMod->links)) { ?>
+  </div>
+<div class="row item-torrents">
+    <div class="col-md-12">
+        <h3>Descargar</h3>
+        <?php if (!empty($filmMod->torrents)) {
+            $torrentsCounter = 1;
+            foreach ($filmMod->torrents as $torrent) {
+                ?>
+                <div class="row">
+                    <div class="col-md-2 col-xs-4">
+                        <span class="flag-icon flag-icon-es"></span> Opción <?= $torrentsCounter++ ?>
+                    </div>
+                    <div class="col-md-10 col-xs-8 text-left">
+                        <a class="btn btn-success" href="https://res.cloudinary.com/filmoteca/raw/upload/<?php echo $torrent->link; ?>.torrent">Torrent</a>
+                    </div>
+                </div>
+            <?php }
+        }
+        ?>
+    </div>
+</div>
+<?php if (!empty($filmMod->links)) { ?>
     <div clas="row">
         <div class="show-links col-md-12">
             <h3> Ver online</h3>
             <ul class="nav nav-pills">
-                <?php $counter = 0; 
-                    foreach ($filmMod->links as $link) { ?>
+                <?php $counter = 0;
+                foreach ($filmMod->links as $link) { ?>
                     <li class="active"><a data-toggle="pill" href="#Opción<?php echo $counter; ?>">Opción<?php echo $counter; ?></a></li>
                     <div class="tab-content">
                         <div id="Opción<?php echo $counter++; ?>" class="tab-pane fade in active">
@@ -129,11 +153,10 @@
                     </div>
                 <?php } ?>
             </ul>
-            
+
         </div>
     </div>
-    <?php } ?>
-  </div>
+<?php } ?>
 
 
 <?php //var_dump($filmMod); ?>
