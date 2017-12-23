@@ -27,7 +27,7 @@
 		<p class="note">Fields with <span class="required">*</span> are required.</p>
 
 		<?php echo $form->errorSummary($model); ?>
-
+        <?php echo $form->hiddenField($model,'id'); ?>
 		<div class="row">
 			<div class="col-md-6">
 				<?php echo $form->labelEx($model,'title'); ?>
@@ -47,14 +47,12 @@
 				<?php echo $form->error($model,'year'); ?>
 			</div>
 			<div class="col-md-6">
-				<?php echo $form->labelEx($model,'country'); ?>
-				<select name="Films[country_id]" class="form-control">
-					<option value="">Seleccione un país</option>
-				<?php foreach ($countriesMod as $countryMod) { ?>
-					<option value="<?php echo $countryMod->id; ?>"><?php echo $countryMod->country_name_es; ?></option>
-				<?php } ?>
-				</select>				
+				<?php echo $form->labelEx($model,'country_id'); ?>
+                <?php
+                    $list = CHtml::listData($countriesMod, 'id', 'country_name_es');
+                    echo $form->dropDownList($model, 'country_id', $list , array("empty" => "Seleccione un país","class"=>"form-control"), array('options' => array($model->country_id=>array('selected'=>true))));
 
+                ?>
 				<?php echo $form->error($model,'country'); ?>
 			</div>
 		</div>
@@ -84,24 +82,37 @@
 		</div>		
 		<div class="row">
 			<?php echo $form->labelEx($model,'synopsis'); ?>
-			<?php echo $form->textField($model,'synopsis', array("class"=>"form-control", "placeholder"=>"Description of the film's argument")); ?>
+			<?php echo $form->textArea($model,'synopsis', array("class"=>"form-control", "placeholder"=>"Description of the film's argument")); ?>
 			<?php echo $form->error($model,'synopsis'); ?>
 		</div>
 		<div class="row">
 			<label for="" class="required">Genres:</label>
-			<ul>
-			<?php foreach ($gBaseMods as $gBaseMod) { ?>
+            <ul>
+            <?php
+                $genres = CHtml::listData($model->genres,"checkBoxId", "name");
+                $genres = array_keys($genres);
+
+                echo CHtml::checkBoxList('Films[genres][]',
+                    $genres,//'$select',//you can pass the array here which you want to be pre checked
+                    CHtml::listData(GenresBase::model()->findAll(array('order'=>'name')),'checkBoxId','name'),
+                    array('separator' => "", "template"=>"<li>{input} {label}</li>")
+                ); ?>
+            </ul>
+			<!--ul>
+			<?php /*foreach ($gBaseMods as $gBaseMod) { ?>
 	          <li>
 	              <input type="checkbox" name="Films[genres][]" value="gen_<?php echo $gBaseMod->id ?>" id="gen_<?php echo $gBaseMod->id; ?>"> 
 	              <label for="gen_<?php echo $gBaseMod->id; ?>"><?php echo $gBaseMod->name; ?></label>
 	          </li>
-	        <?php }?>
-	    	</ul>			
+	        <?php }*/?>
+	    	</ul-->
 			<?php echo $form->error($model,'image'); ?>
 		</div>
 		<div class="row">
 			<?php echo $form->labelEx($model,'image'); ?>
-			<input type="file" name="image" class="form-control" placeholder="Original film's cover">
+            <?php echo cl_image_tag($model->image, array("width" => 98, "height" => 110, "crop" => "fill", "quality"=>"auto" )); ?>
+            <?php echo $form->fileField($model,'image', array("types"=>"jpg", "class"=>"form-control", "placeholder"=>"Original film's cover")); ?>
+            <?php echo $form->hiddenField($model,'image', array("name"=>"")) ?>
 			<small class="form-text text-muted">Accepted files: png, jpg, jpeg</small>
 			<?php echo $form->error($model,'image'); ?>
 		</div>
@@ -135,8 +146,12 @@
 			<small id="emailHelp" class="form-text text-muted">You can add multiple files together.</small>
 		</div>		
 		<div class="row buttons">
-			<button type="submit" id="saveFilmButton" class="btn btn-success" pull-center><i class="fa fa-spinner faa-spin animated hidden"></i> <span>Save</span></button>
-			<?php //ho CHtml::submitButton('Submit'); ?>
+			<button type="submit" id="saveFilmButton" class="btn btn-success" pull-center><i class="fa fa-spinner faa-spin animated hidden"></i>
+                <span><?= $model->id !== NULL ? "Update" : "Save"; ?></span>
+            </button>
+            <?php if ($model->id !== NULL) { ?>
+            <button type="button" id="cancelUpload" class="btn btn-default" pull-center><i class="fa fa-spinner faa-spin animated hidden"></i> <span>Cancel</span></button>
+			<?php } ?>
 		</div>
 
 	<?php $this->endWidget(); ?>
