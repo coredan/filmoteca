@@ -4,6 +4,7 @@ require_once 'cloudinary/Uploader.php';
 require_once 'cloudinary/Api.php';
 
 require_once 'filmaffinity/api.php';
+require_once 'bdecode/class.bdecode.php';
 
 \Cloudinary::config(array( 
   "cloud_name" => "filmoteca", 
@@ -14,33 +15,54 @@ require_once 'filmaffinity/api.php';
 
 class FilmsController extends Controller
 {
-
-	private $gBaseMods;
+    private $gBaseMods;
 	private $errors = array("Undeterminated error ocurred");
 	/**
 	 * Declares class-based actions.
 	 */
-	public function actions()
-	{
-		return array(
-			'page'=>array(
-				'class'=>'CViewAction',
-			),
-		);
-	}
+
+    public function filters()
+    {
+        return array( 'accessControl' ); // perform access control for CRUD operations
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow', // allow authenticated users to access all actions
+                'users'=>array('@'),
+            ),
+            array('deny',  // deny all users
+                'users'=>array('*'),
+            ),
+        );
+    }
 
 	public function init() {
 		//$this->page = "index";
+        register_shutdown_function(array($this, 'onShutdownHandler'));
 		$this->layout = "column3";
 		$this->gBaseMods = GenresBase::Model()->findAll(array('order'=>'name'));
 	}
+
+    public function onShutdownHandler()
+    {
+        if($e = error_get_last()) {
+            $message = sprintf('Error %s: %s in file "%s" on line %d',$e['type'],$e['message'],$e['file'],$e['line']);
+            Yii::log($message, 'error', 'php');
+            $this->raiseEvent('onEndRequest', new CEvent($this));
+            // yii::app()->end(); not suitable as app->ended may already be true, and logs do not flushed to file. yii 1.1.9
+        }
+
+    }
 
 	public function actionIndex()
 	{
         $this->layout = "column3";
         $criteria = new CDbCriteria();
         $criteria->order = 'year DESC';
-        $pages = new CPagination(Films::Model()->count('id'));
+        $totalFilms = Films::Model()->count('id');
+        $pages = new CPagination($totalFilms);
         $pages->pageSize = SiteGlobals::MAX_FILMS_PER_PAGE;
 	    if(isset($_GET["page"])) {
 	        $page = $_GET["page"];
@@ -49,7 +71,7 @@ class FilmsController extends Controller
         $pages->applyLimit($criteria);
         $filmMods = Films::Model()->findAll($criteria);
 
-        $this->render('index', array("filmMods" => $filmMods, "pages"=>$pages));
+        $this->render('index', array("filmMods" => $filmMods, "pages"=>$pages, "totalFilms"=>$totalFilms));
 	}
 
 	public function actionAdd()
@@ -89,18 +111,20 @@ class FilmsController extends Controller
         $response["Post"] = $filmPost;
         $response["FILES"] = $_FILES;
 
-//        // Uploading image to the cloud
-//        if (empty($imageFilePath = $this->uploadFilesToCloud($_FILES["image"], "films_covers", $filmMod->title, array('jpeg','jpg','png')))){
-//            $response["errors"] = $this->errors;
-//            $response["status"] = "error";
-//        } else {
-//            $response["imageFilePath"] = $imageFilePath[0];
-//            $detail["uploaded_image"] =  $response["imageFilePath"];
-//        }
-//
+        // Uploading image to the cloud
+        if(isset($_FILES["image"])) {
+            if (empty($imageFilePath = $this->uploadFilesToCloud($_FILES["image"], "films_covers", $filmPost["title"], array('jpeg', 'jpg', 'png')))) {
+                $response["errors"] = $this->errors;
+                $response["status"] = "error";
+            } else {
+                $response["imageFilePath"] = $imageFilePath[0];
+                $detail["uploaded_image"] = $response["imageFilePath"];
+            }
+        }
+
         // Uploading torrents to the cloud
         if($_FILES["torrentFiles"]["name"][0] !== ""){
-            if(empty($filePaths_torrents = $this->uploadFilesToCloud($_FILES["torrentFiles"], "torrents", $filmPost["title"], array('torrent')))){
+            if(empty($filePaths_torrents = $this->uploadFilesToCloud($_FILES["torrentFiles"], "torrents", $filmPost["title"], array('torrent')))) {
                 $response["errors"] = $this->errors;
                 $response["status"] = "error";
             } else {
@@ -108,6 +132,16 @@ class FilmsController extends Controller
                 $detail["uploaded_torrents"] =  $response["filePaths_torrents"];
             }
         }
+
+//        $torrent = new BDECODE($uploadPath);
+//        $length = 0;
+//                        foreach ($torrent->result["info"]["files"] as $torrentFile) {
+//                            $length = $length + intval($torrentFile["length"]);
+//                        }
+        //$this->torrentInfo = (floatval($length) / 1024.0) / 1024.0;
+//        $info = $torrent->result["info"];
+
+        //print_r(floatval($torrent->result["info"]["piece length"]) / 1024.0);
 
         // ¿Save or Update?
         if (empty($filmPost["id"])) {   // is saving
@@ -134,9 +168,10 @@ class FilmsController extends Controller
 
         // Retrieving no filled form data from FilmAffinity:
         // TODO HACER AQUÍ LO DE COMPROBAR SI TRAE IMAGEN O NO
-        $this->fillDataRemote($filmPost, $filmMod);
-
-        if($response["status"] !== "error" && $filmMod->save()){
+        $fa_info = $this->fillDataRemote($filmPost, $filmMod);
+        $response["fa_info"] = $fa_info;
+        if($response["status"] !== "error" && $filmMod->validate()){
+            $filmMod->save();
             // Saving torrents paths
             if(isset($filePaths_torrents)){
 
@@ -154,7 +189,11 @@ class FilmsController extends Controller
             }
 
             // TODO : guardar bien los géneros usando los active records y no así.
-            $filmPost["genres"] = is_array($filmPost["genres"]) ? $filmPost["genres"] : array($filmPost["genres"]);
+            if(isset($filmPost["genres"])) {
+                $filmPost["genres"] = is_array($filmPost["genres"]) ? $filmPost["genres"] : array($filmPost["genres"]);
+            } else {
+                $filmPost["genres"] = array();
+            }
             $filmAddGenres = array();
 
             // borrando en caso necesario solo al actualizar
@@ -202,10 +241,8 @@ class FilmsController extends Controller
             $response["status"] = "error";
         }
 
-
-			//$response["test"] = $this->uploadFilesToCloud($_FILES["image"], "films_covers", $filmMod->title, array('jpeg','jpg','png'));	
+			//$response["test"] = $this->uploadFilesToCloud($_FILES["image"], "films_covers", $filmMod->title, array('jpeg','jpg','png'));
 			//$response["test"] = $this->uploadFilesToCloud($_FILES["torrentFiles"], "torrents", $filmMod->title, array('torrent'));
-
 		$response["detail"] = $detail;
 		$this->renderJSON($response);
 	}
@@ -227,6 +264,7 @@ class FilmsController extends Controller
 	}
 
 	public function actionSearch() {
+        $totalFilms = Films::Model()->count('id');
 		$request = Yii::app()->request;		
 		$criteria = new CDbCriteria;
 		$criteria->with='genres';		
@@ -250,7 +288,7 @@ class FilmsController extends Controller
 		// $criteria->addCondition('genres.d = 2');
 		$filmMods = Films::Model()->findAll($criteria);		
 		$this->layout = "column3";
-		$this->render('index', array("filmMods"=>$filmMods, "search"=>$searchData));
+		$this->render('index', array("filmMods"=>$filmMods, "search"=>$searchData, "totalFilms"=>$totalFilms));
 	}
 
 	private function fillDataRemote($filmPost, &$filmMod){
@@ -275,6 +313,7 @@ class FilmsController extends Controller
                 }
             }
         }
+        return $filmAffinityInfo;
     }
 
 	
@@ -307,7 +346,10 @@ class FilmsController extends Controller
             // reArray files:
             $tmp = $files;
             $files = $this->reArrayFiles($files);
+            // TODO: CUANDO SE SUBE EL SEGUNDO TORRENT (UNO A UNO) NO SE LE PONE BIEN EL NOMBRE.
+            // POSIBLE SOLUCIÓN: GENERAR NOMBRES ALEATORIOS PARA CADA FICHERO.
             $filesCounter = 0;
+
             foreach ($files as $f) {
 
                 $fileName = $f['name'];
@@ -324,12 +366,13 @@ class FilmsController extends Controller
                     $this->errors[] = "This file extension is not allowed. Please upload a (".explode(",", $fileExtensions).") file";
                 } else {
                     $didUpload = move_uploaded_file($fileTmpName, $uploadPath);
+                    $sha = sha1_file($uploadPath);
                     if ($cloud) {
-                        \Cloudinary\Uploader::upload($uploadPath, array("folder" => $remotePath, "public_id" => $remFileName, "resource_type" => "auto"));
+                        \Cloudinary\Uploader::upload($uploadPath, array("folder" => $remotePath, "public_id" => $sha, "resource_type" => "auto"));
                         unlink($uploadPath);
                     }
                 }
-                $filePaths[] = $remotePath . '/' . $remFileName;
+                $filePaths[] = $remotePath . '/' . $sha;
                 $filesCounter++;
             }
         } else {

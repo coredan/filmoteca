@@ -45,7 +45,8 @@ class Films extends CActiveRecord
 			array('year, country_id, imdb_code', 'numerical', 'integerOnly'=>true),
 			array('nota', 'numerical'),
 			array('title, title_es, director, image, trailer', 'length', 'max'=>255),
-			array('casting, synopsis, ins_date', 'safe'),
+			array('id, genres, casting, synopsis, ins_date', 'safe'),
+			//array('id, genres', 'safe', 'on'>='save'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, title, title_es, year, director, casting, country_id, synopsis, image, nota, imdb_code, trailer, ins_date', 'safe', 'on'=>'search'),
@@ -63,9 +64,11 @@ class Films extends CActiveRecord
 			'country' => array(self::BELONGS_TO, 'Country', 'country_id'),
 			'torrents' => array(self::HAS_MANY, 'Torrents', 'film_id'),
 			'links' => array(self::HAS_MANY, 'Links', 'film_id'),
+            'comments' => array(self::HAS_MANY, 'Usercomments', 'film_id', 'order'=>'enter_date ASC'),
 
 			'filmsGenres' => array(self::HAS_MANY, 'FilmsGenres', 'film_id'),
             'genres' => array(self::HAS_MANY, 'GenresBase', 'genre_id', 'through' => 'filmsGenres'),
+
 		);
 	}
 

@@ -111,9 +111,9 @@
 			$arr[] = $str1 . " - " . $str2;
 
 		}
-		//var_dump($arr); exit();
 		
-		$poster = $doc->getElementById('movie-main-image-container')->getElementsByTagName('img')->item(0)->attributes->getNamedItem('src')->nodeValue;		
+		
+		$poster = $doc->getElementById('movie-main-image-container')->getElementsByTagName('img')->item(0)->attributes->getNamedItem('src')->nodeValue;
 		$title = $doc->getElementById('main-title')->nodeValue;
 		$average = $doc->getElementById('movie-rat-avg')->nodeValue;
 		$votes = $doc->getElementById('movie-count-rat')->getElementsByTagName('span')->item(0)->nodeValue;
@@ -127,12 +127,26 @@
 	function getInfoFromFA($film_code) {
 		$url = $GLOBALS['base_url'].$GLOBALS['country'].$GLOBALS['prefix'].$film_code.$GLOBALS['sufix'];
 
-	    $ch = curl_init();
+	    $ch = curl_init($url);
 	    
-	    curl_setopt($ch, CURLOPT_URL, $url);
+	    //curl_setopt($ch, CURLOPT_URL, $url);
 	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+        curl_setopt($ch, CURLOPT_ENCODING,"");
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+        curl_setopt($ch, CURLOPT_FILETIME, true);
+        curl_setopt($ch, CURLOPT_USERAGENT,"Mozilla/5.0 (Windows NT 5.1; rv:32.0) Gecko/20100101 Firefox/32.0");
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 100);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,100);
+        curl_setopt($ch, CURLOPT_FAILONERROR,true);
 	    
 	    $film_data = curl_exec($ch);
+	    if(curl_error($ch))
+	    	var_dump($url. "-". curl_error($ch));
 	    
 	    curl_close($ch);
 	    

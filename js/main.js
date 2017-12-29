@@ -211,6 +211,33 @@ $(document).ready(function(){
   });
   
   $( "#amount" ).val( "De " + $( "#year-slider-range" ).slider( "values", 0 ) +
-    " a " + $( "#year-slider-range" ).slider( "values", 1 ) );  
+    " a " + $( "#year-slider-range" ).slider( "values", 1 ) );
 
+  $("#lostPasword").on('click',function () {
+      $(".flip-container .flipper").addClass('flip');
+  });
+
+  //JPlayer
+    $("#jquery_jplayer_1").jPlayer({
+        ready: function () {
+            $(this).jPlayer("setMedia", {
+
+                title: "Un Ciudadano Ejemplar",
+                m4v: "https://openload.co/stream/d74Ziw71w5M~1514291674~88.18.0.0~S-in4BqX?mime=true"
+                /*m4v: "http://www.jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v",
+                ogv: "http://www.jplayer.org/video/ogv/Big_Buck_Bunny_Trailer.ogv",
+                poster: "http://www.jplayer.org/video/poster/Big_Buck_Bunny_Trailer_480x270.png"*/
+            });
+        },
+        cssSelectorAncestor: "#jp_container_1",
+        swfPath: "/js",
+        supplied: "m4v, ogv",
+        useStateClassSkin: true,
+        autoBlur: false,
+        smoothPlayBar: true,
+        keyEnabled: true,
+        remainingDuration: true,
+        toggleDuration: true
+
+    });
 });

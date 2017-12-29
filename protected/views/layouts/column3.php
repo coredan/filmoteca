@@ -13,9 +13,9 @@
 		</div><!-- content -->
 	</div>
 	<div class="sidecol col-lg-2 col-md-2 col-sm-12 col-xs-12 last">
-		<div class="sidebar">
-		
-		</div><!-- sidebar -->
+        <div class="sidebar">
+            <?php $this->widget('BestRatedFilms'); ?>
+        </div><!-- sidebar -->
 	</div>
 </div>
 <?php $this->endContent(); ?>

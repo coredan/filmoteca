@@ -16,11 +16,15 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/slick-theme.css"/>	
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/icheck_skins/futurico/futurico.css" >
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/font-awesome-animation.min.css">
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/flag-icon.min.css">	
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/flag-icon.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/sticky_footer.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jplayer.pink.flag.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-	
-	
+
+    <script  type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.js"></script>
+    <script  type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="https://use.fontawesome.com/55f23472bb.js"></script>
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -28,30 +32,49 @@
 
 <body class="bg">
 
-<div class="container" id="page">	
-	<?php $this->widget('Navbar'); ?>
-	<?php if(isset($this->breadcrumbs)):?>
-	  <?php $this->widget('zii.widgets.CBreadcrumbs', array(
-	    'links'=>$this->breadcrumbs,
-	  )); ?><!-- breadcrumbs -->
-	<?php endif?>
+<div class="container" id="page">
+    <?php if (!Yii::app()->user->isGuest) : ?>
+        <?php $this->widget('Navbar'); ?>
+        <?php if(isset($this->breadcrumbs)):?>
+          <?php $this->widget('zii.widgets.CBreadcrumbs', array(
+            'links'=>$this->breadcrumbs,
+          )); ?><!-- breadcrumbs -->
+        <?php endif; ?>
+    <?php endif; ?>
 
 	<?php echo $content; ?>
 
 	<div class="clear"></div>
-
-	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
-		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
-	</div><!-- footer -->
-
 </div><!-- page -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<?php if (!Yii::app()->user->isGuest) : ?>
+<footer class="footer">
+    <div class="container">
+        <div class="col-md-3 col-xs-12">
+            <ul>
+                <li><i class="fa fa-question-circle-o" aria-hidden="true"></i> Preguntas frecuentes</li>
+                <li><i class="fa fa-key" aria-hidden="true"></i> Invitar a un amigo</li>
+                <li><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Informar de un problema</li>
+            </ul>
+        </div>
+        <div class="col-md-3 col-xs-12">
+            <ul>
+                <li class="title">Estadísticas</li>
+                <li>Total de usuarios: 16</li>
+                <li>Usuarios conectados: 2</li>
+            </ul>
+        </div>
+        <div class="col-md-3 col-xs-12">
+        <?php echo Yii::powered(); ?>
+        </div>
+        <div class="col-md-3 col-xs-12">
+            <span class="text-muted">Place sticky footer content here.</span>
+        </div>
+    </div>
+</footer>
+<?php endif; ?>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/modernizr.custom.86080.js"></script>
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.jplayer.min.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-ui.multidatespicker.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/sweetalert.min.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/slick.min.js"></script>

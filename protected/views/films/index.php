@@ -7,7 +7,7 @@
 	);
     $cloudinaryBaseUrl = "https://res.cloudinary.com/filmoteca/image/upload/c_fill,h_140,q_auto,w_98/v1/";
 ?>
-<div class="tab-title"><i class="fa fa-video-camera" aria-hidden="true"></i> LISTADO DE PELÍCULAS (<?= count($filmMods); ?>)</div>
+<div class="tab-title"><i class="fa fa-video-camera" aria-hidden="true"></i> LISTADO DE PELÍCULAS (<?= $totalFilms; ?>)</div>
 <div class="colpanel6x6 col-md-12 col-sm-12 col-xs-12">
     <?php if(count($filmMods) > 0) { ?>
         <?php foreach ($filmMods as $filmMod) {

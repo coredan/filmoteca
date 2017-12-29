@@ -7,7 +7,7 @@
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Filmoteca',
-	'defaultController' => 'site/index',
+	'defaultController' => 'user/login',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -35,7 +35,47 @@ return array(
 			'generatorPaths' => array(
 				'ext.giix-core', // giix generators
 			),
-		),	       
+		),
+        'user'=>array(
+				
+			// enable cookie-based authentication
+			/*'allowAutoLogin'=>true,*/
+
+            # encrypting method (php hash function)
+            'hash' => 'md5',
+ 
+            # send activation email
+            'sendActivationMail' => false,
+ 
+            # allow access for non-activated users
+            'loginNotActiv' => false,
+ 
+            # activate user on registration (only sendActivationMail = false)
+            'activeAfterRegister' => true,
+ 
+            # automatically login from registration
+            'autoLogin' => true,
+ 
+            # registration path
+            'registrationUrl' => array('/user/registration'),
+ 
+            # recovery password path
+            'recoveryUrl' => array('/user/recovery'),
+ 
+            # login form path
+            'loginUrl' => array('/user/login'),
+ 
+            # page after login
+            'returnUrl' => array('/films/index'),
+ 
+            # page after logout
+            'returnLogoutUrl' => array('/user/login'),
+
+            'tableUsers' => 'tbl_users',
+            'tableProfiles' => 'tbl_profiles',
+            'tableProfileFields' => 'tbl_profiles_fields',   
+            'sendActivationMail' => true,  
+        ),       
 	),
 
 	// application components
@@ -50,6 +90,12 @@ return array(
 		// 	'class' => 'WebUser',
 		// 	'loginUrl' => array('/user/login'),
 		// ),
+        'user'=>array(
+            // enable cookie-based authentication
+            'allowAutoLogin'=>true,
+            'class' => 'WebUser',
+            'loginUrl' => array('/user/login'),
+        ),
 		//comment the following to disable URLs in path-format
 		'urlManager'=>array(
 			//'caseSensitive'=>false,			
@@ -67,23 +113,23 @@ return array(
 		// MySQL database		
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=filmotecadb',
-			'username' => 'root',				
-			'password' => 'H1dr0c3f4l0#',			
-			
-			'emulatePrepare' => true,	
+			'username' => 'root',
+			'password' => 'H1dr0c3f4l0#',
+
+			'emulatePrepare' => true,
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
 		),
 		// Explotacion
 		// 'db'=>array(
 		// 	'connectionString' => 'mysql:host=localhost;dbname=id3971552_filmotecadb',
-		// 	'username' => 'id3971552_danmaster',				
-		// 	'password' => 'H1p0gr1f0#',			
+		// 	'username' => 'id3971552_danmaster',
+		// 	'password' => 'H1p0gr1f0#',
 			
-		// 	'emulatePrepare' => true,	
+		// 	'emulatePrepare' => true,
 		// 	'charset' => 'utf8',
 		// 	'tablePrefix' => 'tbl_',
-		// ),		
+		// ),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
@@ -103,6 +149,10 @@ return array(
 				*/
 			),
 		),
+        /*'user'=>array(
+            // enable cookie-based authentication
+            'class' => 'WebUser',
+        ),*/
 	),
 
 	// application-level parameters that can be accessed

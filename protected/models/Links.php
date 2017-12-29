@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $film_id
  * @property string $url
+ * @property string $quality
  */
 class Links extends CActiveRecord
 {
@@ -29,9 +30,10 @@ class Links extends CActiveRecord
 			array('film_id, url', 'required'),
 			array('film_id', 'numerical', 'integerOnly'=>true),
 			array('url', 'length', 'max'=>255),
+			array('quality', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, film_id, url', 'safe', 'on'=>'search'),
+			array('id, film_id, url, quality', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,6 +57,7 @@ class Links extends CActiveRecord
 			'id' => 'ID',
 			'film_id' => 'Film',
 			'url' => 'Url',
+			'quality' => 'Quality',
 		);
 	}
 
@@ -79,6 +82,7 @@ class Links extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('film_id',$this->film_id);
 		$criteria->compare('url',$this->url,true);
+		$criteria->compare('quality',$this->quality,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
